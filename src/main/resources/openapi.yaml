@@ -1,0 +1,377 @@
+openapi: 3.0.1
+info:
+  title: Spaceships
+  description: It is and inventory  of spaceships.
+  contact:
+    name: Maximiliano R Soria
+    email: maximilianorodrigosoria@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licences/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: https://dev.spaceships.com/v1
+    description: It is a development server
+  - url: https://test.spaceships.com/v1
+    description: It is a testing server
+tags:
+  - name: spaceships
+    description: Vechicle to trave through spaceships
+    externalDocs:
+      description: Find more
+      url: https://info.spaceships.com
+
+paths:
+  /spaceships:
+    get:
+      tags:
+        - spaceships
+      summary: Provide a list of all spaceships.
+      parameters:
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/OrderBy'
+        - name: alias
+          in: query
+          description: Common name as the spaceship is recognized.
+          required: false
+          schema:
+            type: string
+        - name: propulsion
+          in: query
+          description: Movement mechanism through space.
+          required: false
+          schema:
+            type: string
+            enum:
+              - NUCLEAR
+              - IONIC
+              - SPACE
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Spaceship'
+    post:
+      tags:
+        - spaceships
+      summary: Register a new spaceship to make it available to manage.
+      requestBody:
+        description: Spaceship to be registered.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Spaceship'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spaceship'
+          headers:
+            Location:
+              description: URI Spaceship location
+              schema:
+                type: string
+                example: /spaceships/32sd-32f4-h656-h74j
+    head:
+      tags:
+        - spaceships
+      summary: Allows checking by certain criteria if any spaceship
+        accomplishes with the search parameters.
+      parameters:
+        - name: status
+          in: query
+          description: Spaceship status in different enviromets
+            for example; mechanics, maintenance, verifications, travels.
+          required: false
+          schema:
+            type: string
+            enum:
+              - MAINTENANCE
+              - TRAVELING
+              - TAKING_OFF
+              - ARRIVING
+              - LOST
+              - OUT_OF_SERVICE
+      responses:
+        200:
+          description: Ok
+        204:
+          description: No Content
+  /spaceships/{spaceship-id}:
+    parameters:
+      - name: spaceship-id
+        in: path
+        description: Spaceship's identifier.
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - spaceships
+      summary: Obtain detailed information about an specific spaceship.
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spaceship'
+    put:
+      tags:
+        - spaceships
+      summary: Replace whole spaceship's information, without
+        changing the identifier. When the resource identifier
+        is not found, a new spaceship will be created.
+      requestBody:
+        description: Spaceship to be replaced or created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Spaceship'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spaceship'
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spaceship'
+          headers:
+            Location:
+              description: URI Spaceship location
+              schema:
+                type: string
+                example: /spaceships/32sd-32f4-h656-h74j
+    patch:
+      tags:
+        - spaceships
+      summary: Update partially properties of the spaceship.
+      requestBody:
+        description: Spaceship information to be updated.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Spaceship'
+      responses:
+        204:
+          description: No Content
+    delete:
+      tags:
+        - spaceships
+      summary: Disable a specific spaceship of any functionality.
+      responses:
+        204:
+          description: No Content
+        202:
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingDelete'
+          headers:
+            schema:
+              $ref: '#/components/headers/Content-Location'
+        303:
+          description: See other
+          headers:
+            schema:
+              $ref: '#/components/headers/Content-Location'
+  /spaceships/{spaceship-id}/analyze-launch:
+    parameters:
+      - name: spaceship-id
+        in: path
+        description: Spaceship's identifier.
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - spaceships
+      summary: Analyze the spaceship before to travel to the space.
+      requestBody:
+        description: Parameters to analyze.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Analyze'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Analyze'
+              example:
+                mode: DEEP
+                canLaunch: false
+                issues:
+                  - id: r243-32f-f32f-f32f
+                    description: Captain has problemas with the tripulation
+                    riskLevel: 4
+                  - id: j655-233r-f3dd-j765
+                    description: Ionic motor can overload in the next 4 Persecs
+                    riskLevel: 6
+
+components:
+  schemas:
+    Spaceship:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 2r32-d2454-f23d-23ds
+          readOnly: true
+          description: Spaceship identifier.
+        alias:
+          type: string
+          example: Cosmos
+          description: Common name as the spaceship is recognized.
+        propulsion:
+          type: string
+          enum:
+            - NUCLEAR
+            - IONIC
+            - SPACE
+          example: NUCLEAR
+          description: Movement mechanism through space.
+        hasShield:
+          type: boolean
+          default: false
+          example: false
+          description: Indicates if the spaceship has an energy barrier
+            to protect it from espacial particles or meteors.
+        distanceTraveled:
+          $ref: '#/components/schemas/Distance'
+        materials:
+          type: array
+          items:
+            $ref: '#/components/schemas/Material'
+          description: Main Spaceship materials.
+        creationDate:
+          type: string
+          format: date
+          description: Date when the spaceship was available to travel.
+            The date is considered in earth hour. This date is according to the `RFC3339`.
+          example: 2101-12-25
+          readOnly: true
+      required:
+        - id
+        - alias
+        - propulsion
+    Distance:
+      type: object
+      description: It is the distance which the spaceship has traveled in space.
+      properties:
+        diatance:
+          type: number
+          format: int64
+          example: 10
+          minimum: 0
+          description: Distace value.
+        unit:
+          type: string
+          enum:
+            - ASTRONOMIC_UNIT
+            - LIGHT_YEAR
+            - PERSEC
+          example: PERSEC
+          description: Distance unit which represents the value.
+      required:
+        - diatance
+        - unit
+    Material:
+      type: object
+      properties:
+        id:
+          type: string
+          example: e344-d43d-d211-d23f
+          description: Material identifier.
+        name:
+          type: string
+          example: Carbon fiber
+          readOnly: true
+          description: Material name.
+      required:
+        - id
+        - name
+    PendingDelete:
+      type: object
+      properties:
+        id:
+          type: string
+          example: e344-d43d-d211-d23f
+          description: Pending task identifier.
+        status:
+          type: string
+          enum: [PENDING, SUCCESSFUL, FAILURE]
+    Analyze:
+      type: object
+      properties:
+        mode:
+          type: string
+          enum: [BASIC, DEEP]
+          default: DEEP
+        canLaunch:
+          type: boolean
+          description: Indicates if the results allows the launching.
+          default: false
+          readOnly: true
+        issues:
+          type: array
+          readOnly: true
+          items:
+            properties:
+              id:
+                type: string
+                description: Issue identifier.
+              description:
+                type: string
+                description: information about the assestmen element detected.
+              riskLevel:
+                type: integer
+                description: Risk level is given from 0 to 10 where
+                  0 is the lower level. If some component is greater than
+                  3 the launch can not start.
+      required:
+        - canLaunch
+  parameters:
+    PageSize:
+      name: pageSize
+      in: query
+      description: Number of element per page.
+      schema:
+        type: integer
+      example: 12
+    PageNumber:
+      name: pageNumber
+      in: query
+      description: Number of page
+      schema:
+        type: integer
+      example: 2
+    OrderBy:
+      in: query
+      name: orderBy
+      description: It allows order asc or desc the resources.
+      schema:
+        type: string
+        enum: [ASC, DESC]
+      example: ASC
+  headers:
+    Content-Location:
+      description: It indicates an alternate location for the returned data.
+      schema:
+        type: string
+        example: /spaceships/tasks/d3d3-d3dd-f32f-f3f3
