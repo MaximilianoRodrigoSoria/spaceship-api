@@ -15,8 +15,6 @@ The presented API serves as an illustrative model featuring a set of endpoints c
 
 ## 🔨 Build and Run
 
-# Running Spring Boot API with Maven
-
 ## Prerequisites
 
 Ensure you have the following installed on your system:
