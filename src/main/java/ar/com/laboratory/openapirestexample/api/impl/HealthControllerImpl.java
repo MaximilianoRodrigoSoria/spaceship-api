@@ -1,6 +1,7 @@
 package ar.com.laboratory.openapirestexample.api.impl;
 
 import ar.com.laboratory.openapirestexample.api.HealthController;
+import ar.com.laboratory.openapirestexample.services.HealthService;
 import ar.com.laboratory.openapirestexample.util.Constants;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,8 +21,9 @@ import static org.springframework.http.ResponseEntity.ok;
 @Slf4j
 public class HealthControllerImpl  implements HealthController {
 
+    private HealthService healthService;
     public ResponseEntity<String> health() {
-        return ResponseEntity.ok("OK");
+        return ResponseEntity.ok(healthService.getHealth());
     }
 
 }
