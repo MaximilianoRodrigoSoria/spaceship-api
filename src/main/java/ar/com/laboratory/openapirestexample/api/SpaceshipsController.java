@@ -1,6 +1,8 @@
 package ar.com.laboratory.openapirestexample.api;
 
 import ar.com.laboratory.openapirestexample.model.SpaceshipDTO;
+import ar.com.laboratory.openapirestexample.model.enums.OrderBy;
+import ar.com.laboratory.openapirestexample.model.enums.Propulsion;
 import ar.com.laboratory.openapirestexample.util.Constants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @AllArgsConstructor
 @Tag(name="Spaceship controller")
+@Slf4j
 public class SpaceshipsController {
     @GetMapping(Constants.RESOURCE_SPACESHIP +"/{spaceshipId}")
     @Operation(summary = "Obtain detailed information about a specific spaceship")
@@ -77,13 +81,22 @@ public class SpaceshipsController {
             )
     })
     public ResponseEntity<List<SpaceshipDTO>> getSpaceships(
+            @Parameter(name = "pageSize", description = "Page size for search results", in = ParameterIn.QUERY, schema = @Schema(type = "int"))
             @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+
+            @Parameter(name = "pageNumber", description = "Page number.", in = ParameterIn.QUERY, schema = @Schema(type = "int"))
             @RequestParam(name = "pageNumber", defaultValue = "1") int pageNumber,
-            @RequestParam(name = "orderBy", defaultValue = "ASC") String orderBy,
+
+            @Parameter(name = "orderBy", description = "Order of search results.", in = ParameterIn.QUERY, schema = @Schema(type = "string", allowableValues = {"NONE", "ASC", "DESC"}))
+            @RequestParam(name = "orderBy", defaultValue = "ASC") OrderBy orderBy,
+
+            @Parameter(name = "alias", description = "Common name as the spaceship is recognized.", in = ParameterIn.QUERY, schema = @Schema(type = "string"))
             @RequestParam(name = "alias", required = false) String alias,
+
             @Parameter(name = "propulsion", description = "Movement mechanism through space.", in = ParameterIn.QUERY, schema = @Schema(type = "string", allowableValues = {"NUCLEAR", "IONIC", "SPACE"}))
-            @RequestParam(name = "propulsion", required = false) String propulsion
+            @RequestParam(name = "propulsion", required = false) Propulsion propulsion
     ) {
+        log.info("Propulsion "+propulsion.name().concat(" Order: "+orderBy.name()));
         List<SpaceshipDTO> spaceships = List.of(new SpaceshipDTO());
         return ResponseEntity.ok(spaceships);
     }
