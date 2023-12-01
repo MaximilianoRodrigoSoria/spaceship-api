@@ -70,10 +70,7 @@ public class SpaceshipsController {
     }
 
     @GetMapping(Constants.RESOURCE_SPACESHIP)
-    @Operation(
-            summary = "Provide a list of all spaceships",
-            tags = "spaceships"
-    )
+    @Operation(summary = "Provide a list of all spaceships")
     @ApiResponses(value = {
                          @ApiResponse(responseCode = "200", description = "Ok",
                             content = @Content(mediaType = "application/json",
