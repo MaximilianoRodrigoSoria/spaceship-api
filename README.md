@@ -53,7 +53,7 @@ Your Spring Boot API should now be accessible at the default port 8080. Open you
 
 > http://localhost:8080/spaceships/swagger-ui.html
 
-
+<img width="100%" height="100%" src="docs/img/open-api.png" alt="Open Api"></a></p>
 ## 📜 License
 
 [Apache 2.0](http://springdoc.org)
