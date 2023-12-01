@@ -52,3 +52,10 @@ mvn spring-boot:run
 Your Spring Boot API should now be accessible at the default port 8080. Open your web browser or a tool like Postman and access the following URL:
 
 > http://localhost:8080/spaceships/swagger-ui.html
+
+
+## License
+
+[Apache 2.0](http://springdoc.org)
+
+Copyright (c) 2023-present
