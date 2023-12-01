@@ -18,38 +18,23 @@ import org.springframework.stereotype.Component;
 public class OpenApiConfig
 {
 
-    @Value("${open.api.context.path}")
-    private String contextPath;
 
-    @Value("${info.build.version}")
-    private String version;
-
-    @Value("${open.api.contact.info.name}")
-    private String contactName;
-
-    @Value("${open.api.contact.info.email}")
-    private String contactEmail;
-
-    @Value("${open.api.contact.info.url}")
-    private String contactUrl;
-
-    @Value("${open.api.contact.info.title}")
-    private String title;
-
-    @Value("${open.api.contact.info.description}")
-    private String description;
-
-    @Value("${open.api.server.url}")
-    private String hostUrl;
-
-    @Value("${open.api.server.description}")
-    private String hostDescription;
-
-    @Value("${open.api.external.doc}")
-    private String externalDoc;
 
     @Bean
-    public OpenAPI customOpenAPI(@Value("${info.build.version}") String version) {
+    public OpenAPI customOpenAPI(
+            @Value("${open.api.context.path}") String contextPath,
+            @Value("${open.api.info.build.version}") String version,
+            @Value("${open.api.contact.info.name}") String contactName,
+            @Value("${open.api.contact.info.email}") String contactEmail,
+            @Value("${open.api.contact.info.url}") String contactUrl,
+            @Value("${open.api.contact.info.title}") String title,
+            @Value("${open.api.contact.info.description}") String description,
+            @Value("${open.api.server.url}") String hostUrl,
+            @Value("${open.api.server.description}")String hostDescription,
+            @Value("${open.api.external.doc}")String externalDoc,
+            @Value("${open.api.external.doc.description}") String externalDocDescription
+
+    ) {
         return new OpenAPI()
                 .components(new Components()
                         .addSecuritySchemes("basicScheme", new SecurityScheme().type(SecurityScheme.Type.HTTP)
@@ -62,7 +47,7 @@ public class OpenApiConfig
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .addServersItem(new Server().url(hostUrl.concat(contextPath)).description(hostDescription))
                 .externalDocs(new ExternalDocumentation()
-                        .description("Find more")
+                        .description(externalDocDescription)
                         .url(externalDoc));
                  }
     @Bean
