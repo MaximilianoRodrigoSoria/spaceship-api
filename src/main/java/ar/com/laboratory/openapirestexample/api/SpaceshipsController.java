@@ -57,7 +57,7 @@ public interface SpaceshipsController {
                             array = @ArraySchema(schema = @Schema(implementation = SpaceshipDTO.class)))
             )
     })
-    public ResponseEntity<List<SpaceshipDTO>> getSpaceships(
+    public ResponseEntity<List<SpaceshipDTO>> findAllSpaceships(
             @Parameter(name = "pageSize", description = "Page size for search results", in = ParameterIn.QUERY, schema = @Schema(type = "int"))
             int pageSize,
             @Parameter(name = "pageNumber", description = "Page number.", in = ParameterIn.QUERY, schema = @Schema(type = "int"))
