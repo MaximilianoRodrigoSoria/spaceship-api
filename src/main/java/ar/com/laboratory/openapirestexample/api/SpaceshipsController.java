@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -97,5 +98,16 @@ public class SpaceshipsController {
         log.info("Propulsion "+propulsion.name().concat(" Order: "+orderBy.name()));
         List<SpaceshipDTO> spaceships = List.of(new SpaceshipDTO());
         return ResponseEntity.ok(spaceships);
+    }
+
+    @DeleteMapping(Constants.RESOURCE_SPACESHIP +"/{spaceshipId}")
+    @Operation(summary = "Disable a specific spaceship")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Spaceship not found")
+    })
+    public ResponseEntity<Void> delete(@Parameter(description = "Spaceship identifier", required = true)
+                                                 @PathVariable("spaceshipId") Long spaceshipId){
+        return ResponseEntity.noContent().build();
     }
 }
