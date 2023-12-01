@@ -4,6 +4,7 @@ import ar.com.laboratory.openapirestexample.model.SpaceshipDTO;
 import ar.com.laboratory.openapirestexample.model.enums.OrderBy;
 import ar.com.laboratory.openapirestexample.model.enums.Propulsion;
 import ar.com.laboratory.openapirestexample.util.Constants;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -25,7 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @AllArgsConstructor
-@Tag(name="Spaceship controller")
+@Tag(name="Spaceship controller", description = "Vehicle to travel through spaceships", externalDocs = @ExternalDocumentation(description = "Find more info about Spaceships", url = "https://example.com/spaceships"))
 @Slf4j
 public class SpaceshipsController {
     @GetMapping(Constants.RESOURCE_SPACESHIP +"/{spaceshipId}")

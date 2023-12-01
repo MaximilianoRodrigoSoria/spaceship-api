@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -35,19 +36,41 @@ public class OpenApiConfig
                         .addSecuritySchemes("basicScheme", new SecurityScheme().type(SecurityScheme.Type.HTTP)
                                 .scheme("basic")))
                 .info(new Info()
-                        .title("Spaceships")
+                        .title("Spaceship reservation API")
                         .description("It is and inventory  of spaceships.")
                         .contact(new Contact().name("Jhon Doe").email("jhondoe@test.com").url("www.test.com"))
                         .version(version)
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))
                 .addServersItem(new Server().url("http://localhost:8080".concat(contextPath)).description("Local host"))
                 .addServersItem(new Server().url("https://dev.spaceships.com".concat(contextPath)).description("Development environment"))
-                .tags(List.of(new Tag()
-                .name("Spaceships")
-                .description("Vehicle to travel through spaceships")
+                /*.tags(List.of(new Tag()
+                .name("spaceship reservation")
+                .description("Vehicle to travel through spaceships")*/
                 .externalDocs(new ExternalDocumentation()
                         .description("Find more")
-                        .url("https://info.spaceships.com"))));
+                        .url("https://info.spaceships.com"));
                  }
+    @Bean
+    public GroupedOpenApi spaceshipApi() {
+        return GroupedOpenApi.builder()
+                .group("spaceship-api") // Use a unique group name
+                .pathsToMatch("/api/v1/spaceship/**") // Define the paths for this group
+                .build();
+    }
 
+    @Bean
+    public GroupedOpenApi allPlanetApi() {
+        return GroupedOpenApi.builder()
+                .group("all-api") // Use a unique group name
+                .pathsToMatch("/api/**") // Define the paths for this group
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi planetGroupApi() {
+        return GroupedOpenApi.builder()
+                .group("planet-api") // Use a unique group name
+                .pathsToMatch("/api/v1/planet/**") // Define the paths for this group
+                .build();
+    }
 }
