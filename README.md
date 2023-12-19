@@ -67,6 +67,37 @@ Your Spring Boot API should now be accessible at the default port 8080. Open you
 
 ---
 
+### ⭐ Udemy course
+
+These examples are given by the Udemy course **OpenAPI 3 Master: Diseña APIs como un Profesional)**
+
+
+Link: https://www.udemy.com/course/diseno-apis-openapi/
+
+
+#### Course objective
+
+1. APIs as Products: Discover why APIs are not just a technology but genuine drivers of business growth, both internally and externally.
+2. Design with OpenAPI Spec: Master the most widely accepted standard in the world of APIs. Additionally, understand how it seamlessly integrates with cloud giants like AWS.
+3. Quality and Usability: Learn to design APIs that your consumers will love. We will cover:
+   - Standards and RFCs
+   - Best practices in design 
+   - Proper use of HTTP methods and response codes 
+   - REST architecture patterns
+
+<br/>
+<br/>
+
+### ⭐ Certificate
+
+
+<p align="center">
+<a href="https://www.udemy.com/certificate/UC-f86f53c5-8740-40b4-825e-70cdb79d0dd2/" target="_blank" rel="noopener noreferrer">
+<img width="100%" height="100%" src="docs/img/certificado.jpg" alt="Certificate"></a></p>
+
+> [!NOTE]
+> You can access the certificate by clicking on the image.
+---
 <br/>
 
 ### ⭐ Autor
